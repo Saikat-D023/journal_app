@@ -1,9 +1,9 @@
-// Step B: Create a Routes Folder
-// Inside server/src/, create a folder named routes. Create journalRoutes.js.
+import express from "express";
+import { createEntry, getEntries } from "../controllers/journalController.js";
 
-// Use express.Router().
+const journalRouter = express.Router();
 
-// Define router.post("/", createEntry) and router.get("/", getEntries).
+journalRouter.post("/", createEntry);
+journalRouter.get("/", getEntries);
 
-// Step C: Mount the Routes
-// In your index.js, import your router and use it: app.use("/api/journal", journalRouter);.
+export default journalRouter;

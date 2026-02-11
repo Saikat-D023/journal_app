@@ -1,8 +1,26 @@
-//Step A: Create a Controllers Folder
-// Inside server/src/, create a folder named controllers. Create a file called journalController.js.
+import { JournalModel } from "../../db/schema.js";
 
-// Write an async function for createEntry.
+export const createEntry = async (req, res) => {
+    try {
+        const { title, content, mood, summary } = req.body;
+        const newEntry = new JournalModel({
+            title,
+            content,
+            mood,
+            summary
+        });
+        await newEntry.save();
+        res.status(201).json(newEntry);
+    } catch (error) {
+        res.status(500).json({ message: "Error creating entry", error });
+    }
+};
 
-// Inside, use req.body to get the title and content, then use your Mongoose Model to save it.
-
-// Challenge: Try to return the newly created object with a 201 status code.
+export const getEntries = async (req, res) => {
+    try {
+        const entries = await JournalModel.find();
+        res.status(200).json(entries);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching entries", error });
+    }
+};
